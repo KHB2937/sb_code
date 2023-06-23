@@ -1,34 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myhttpd-dep
+  name: sbimage-dep
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: myhttpd
+      app: sbimage
   template:
     metadata:
       labels:
-        app: myhttpd
+        app: sbimage
     spec:
       containers:
-      - name: myhttpd-pod
-        image: 211.183.3.10:5000/myhttpd:7
+      - name: sbimage-pod
+        image: 211.183.3.10:5000/sbimage:7
         ports:
         - containerPort: 8085
-        command: ["java", "-jar", "springbootApp.jar"]
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: myhttpd-svc
+  name: svc-sbimage
 spec:
   type: NodePort
   selector:
-    app: myhttpd
+    app: sbimage
   ports:
-    - protocol: TCP
-      port: 32100
-      targetPort: 8085
-      nodePort: 32100
+    - nodePort: 32000
+    port: 80
+    targetPort: 80
