@@ -17,4 +17,18 @@ spec:
         image: 211.183.3.10:5000/myhttpd:7
         ports:
         - containerPort: 8085
-
+        command: ["java", "-jar", "springbootApp.jar"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myhttpd-svc
+spec:
+  type: NodePort
+  selector:
+    app: myhttpd
+  ports:
+    - protocol: TCP
+      port: 32100
+      targetPort: 8085
+      nodePort: 32100
